@@ -19,7 +19,7 @@ app.listen(3000, '0.0.0.0', () => {
 });
 
 const app2 = express();
-app2.get("/", (req: Request, res: Response) => {
+app2.get("/api/", (req: Request, res: Response) => {
     res.send("Hello from the second app on port 4000!");
 });
 app2.listen(4000, '0.0.0.0', () => {

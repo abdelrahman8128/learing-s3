@@ -14,6 +14,14 @@ app.get("/hello", (req: Request, res: Response) => {
   res.json({ message: `Hello, ${name}!` });
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running at http://0.0.0.0:${port}`);
+app.listen(3000, '0.0.0.0', () => {
+    console.log(`Server running at http://0.0.0.0:3000`);
+});
+
+const app2 = express();
+app2.get("/", (req: Request, res: Response) => {
+    res.send("Hello from the second app on port 4000!");
+});
+app2.listen(4000, '0.0.0.0', () => {
+    console.log(`Server running at http://0.0.0.0:4000`);
 });

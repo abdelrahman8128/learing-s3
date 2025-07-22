@@ -14,9 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: ['.env.local', '.env'] });
+dotenv_1.default.config({ path: [".env.local", ".env"] });
 const multer_1 = __importDefault(require("multer"));
 const uploade_to_s3_1 = require("./service/s3/uploade to s3");
+const delete_from_s3_1 = require("./service/s3/delete from s3");
 const app = (0, express_1.default)();
 const port = 3000;
 const upload = (0, multer_1.default)({ dest: "uploads/" });
@@ -31,9 +32,31 @@ app.post("/upload", upload.single("image"), (req, res) => __awaiter(void 0, void
         res.status(500).json({ error: "حصل خطأ في رفع الصورة", details: err });
     }
 }));
+// Delete from S3
+app.delete("/delete", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { key } = req.query;
+    if (!key)
+        return res.status(400).json({ error: "لم يتم إرسال اسم الملف" });
+    try {
+        yield (0, delete_from_s3_1.deleteFromS3)(req, res);
+        res.json({ message: "تم حذف الملف بنجاح!" });
+    }
+    catch (err) {
+        res.status(500).json({ error: "حصل خطأ في حذف الملف", details: err });
+    }
+}));
 // GET / => Hello
 app.get("/", (req, res) => {
-    res.send("Hello from TypeScript + Node.js!");
+    res.send(`
+    <html>
+      <head>
+        <title>Welcome</title>
+      </head>
+      <body>
+        <h1>Hi, welcome to my PBE area</h1>
+      </body>
+    </html>
+  `);
 });
 // مثال: GET /hello?name=Ali
 app.get("/hello", (req, res) => {

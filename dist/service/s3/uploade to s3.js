@@ -14,17 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadToS3 = uploadToS3;
 const client_s3_1 = require("@aws-sdk/client-s3");
+const s3_config_1 = require("../../configs/s3 config"); // Adjust the import path as necessary
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const s3 = new client_s3_1.S3Client({
-    region: "us-east-1",
-    credentials: {
-        accessKeyId: process.env.ACCESS_KEY_ID,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    },
-});
-console.log(process.env.ACCESS_KEY_ID);
-const region = "us-east-1";
+const region = process.env.AWS_REGION;
 const BUCKET_NAME = "learning-s3-ak8128";
 function uploadToS3(localFilePath, originalName, mimetype, req, res) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -45,7 +38,7 @@ function uploadToS3(localFilePath, originalName, mimetype, req, res) {
             };
             let result;
             try {
-                result = yield s3.send(new client_s3_1.PutObjectCommand(params));
+                result = yield s3_config_1.s3.send(new client_s3_1.PutObjectCommand(params));
             }
             finally {
                 // This will run even if an error occurs above!

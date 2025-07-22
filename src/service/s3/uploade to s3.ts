@@ -1,15 +1,8 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import {  PutObjectCommand } from "@aws-sdk/client-s3";
+import { s3 } from "../../configs/s3 config"; // Adjust the import path as necessary
 import fs from "fs";
 import path from "path";
 
-const s3 = new S3Client({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.ACCESS_KEY_ID as string,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY as string,
-  },
-});
-console.log(process.env.ACCESS_KEY_ID);
 
 const region = process.env.AWS_REGION as string;
 const BUCKET_NAME = "learning-s3-ak8128";
